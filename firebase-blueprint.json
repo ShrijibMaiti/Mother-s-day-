@@ -1,0 +1,209 @@
+{
+  "entities": {
+    "profile": {
+      "title": "User Profile",
+      "description": "User profile and preferences.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "college": { "type": "string" },
+        "city": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "quotePreference": { "type": "string", "enum": ["academic", "motivational", "spiritual", "mixed"] },
+        "appName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "role", "city"]
+    },
+    "task": {
+      "title": "Task",
+      "description": "A task or to-do item.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string", "enum": ["Teaching", "Research", "Admin", "Personal"] },
+        "priority": { "type": "string", "enum": ["Urgent", "ThisWeek", "Someday"] },
+        "completed": { "type": "boolean" },
+        "pinned": { "type": "boolean" },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "priority"]
+    },
+    "subject": {
+      "title": "Subject",
+      "description": "An academic subject being taught.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "year": { "type": "string", "enum": ["1st", "2nd", "3rd", "4th"] },
+        "colorTag": { "type": "string" },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "completed": { "type": "boolean" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "year"]
+    },
+    "schedule": {
+      "title": "Schedule Entry",
+      "description": "A class or lab session in the weekly schedule.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "day": { "type": "string", "enum": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "room": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "lecture": {
+      "title": "Lecture",
+      "description": "A specific lecture session plan.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "topic": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["Planned", "Ready", "Done"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "phd": {
+      "title": "PhD Overview",
+      "description": "High-level PhD progress tracking.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "university": { "type": "string" },
+        "guideName": { "type": "string" },
+        "targetDate": { "type": "string", "format": "date-time" },
+        "currentStage": { "type": "string" },
+        "dailyWordGoal": { "type": "integer" },
+        "writingStreak": { "type": "integer" },
+        "lastWritingDate": { "type": "string", "format": "date-time" }
+      }
+    },
+    "chapter": {
+      "title": "PhD Chapter",
+      "description": "A chapter in the PhD thesis.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "number": { "type": "integer" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["Not Started", "In Progress", "Draft Done", "Final"] },
+        "lastEdited": { "type": "string", "format": "date-time" }
+      }
+    },
+    "familyEvent": {
+      "title": "Family Event",
+      "description": "An important family date.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["Birthday", "Anniversary", "Other"] },
+        "date": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    },
+    "familyTodo": {
+      "title": "Family To-Do",
+      "description": "A list item for home or groceries.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "type": { "type": "string", "enum": ["todo", "grocery"] },
+        "category": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "note": {
+      "title": "Home Note",
+      "description": "A quick note or reminder for home.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "reflection": {
+      "title": "Daily Reflection",
+      "description": "End-of-day reflection.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "string" },
+        "content": { "type": "string" },
+        "mood": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "users/{userId}/profile/default": {
+      "schema": "profile",
+      "description": "User profile document."
+    },
+    "users/{userId}/tasks/{taskId}": {
+      "schema": "task",
+      "description": "User tasks."
+    },
+    "users/{userId}/subjects/{subjectId}": {
+      "schema": "subject",
+      "description": "Teaching subjects."
+    },
+    "users/{userId}/schedule/{entryId}": {
+      "schema": "schedule",
+      "description": "Weekly class schedule."
+    },
+    "users/{userId}/lectures/{lectureId}": {
+      "schema": "lecture",
+      "description": "Planned lectures."
+    },
+    "users/{userId}/phd/overview": {
+      "schema": "phd",
+      "description": "PhD progress overview."
+    },
+    "users/{userId}/chapters/{chapterId}": {
+      "schema": "chapter",
+      "description": "Thesis chapters."
+    },
+    "users/{userId}/familyEvents/{eventId}": {
+      "schema": "familyEvent",
+      "description": "Family birthdays/anniversaries."
+    },
+    "users/{userId}/familyTodos/{todoId}": {
+      "schema": "familyTodo",
+      "description": "Home/grocery items."
+    },
+    "users/{userId}/homeNotes/{noteId}": {
+      "schema": "note",
+      "description": "General home notes."
+    },
+    "users/{userId}/reflections/{date}": {
+      "schema": "reflection",
+      "description": "Daily reflections."
+    }
+  }
+}

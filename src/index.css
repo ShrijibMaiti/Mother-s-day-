@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-brand-bg: #FAFAF8;
+  --color-sidebar-bg: #F7F7F4;
+  --color-card-bg: #FFFFFF;
+  --color-primary-text: #1A1A2E;
+  --color-secondary-text: #6B7280;
+  --color-border-main: #E7E7E2;
+  --color-border-card: #F0F0EC;
+  --color-divider: #F1F1ED;
+
+  --color-sage: #7C9E87;
+  --color-lavender: #A89BC2;
+  --color-beige: #E8D2A8;
+  --color-rose: #E6B7B7;
+  --color-blue-gray: #B8C4CF;
+
+  --color-tag-teaching-bg: #E3ECE5;
+  --color-tag-teaching-text: #6E8B76;
+  --color-tag-research-bg: #EAE4F4;
+  --color-tag-research-text: #7D6F9B;
+  --color-tag-admin-bg: #E1E8EE;
+  --color-tag-admin-text: #607080;
+  --color-tag-personal-bg: #FAF0F0;
+  --color-tag-personal-text: #A07070;
+
+  --color-active-nav-bg: #E7EFE8;
+  --color-active-nav-text: #5F7B68;
+  --color-nav-hover: #F0F0EC;
+
+  --radius-xl: 18px;
+  --radius-lg: 14px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Landing Page Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.petal {
+  position: absolute;
+  bottom: -40px;
+  pointer-events: none;
+  animation: floatUp linear infinite;
+  opacity: 0;
+  z-index: 0;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+.animate-bob {
+  animation: bob 2s ease-in-out infinite;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+

@@ -1,0 +1,121 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    match /users/{userId} {
+      // Profile rules
+      match /profile/default {
+        allow read: if isOwner(userId);
+        allow write: if isOwner(userId);
+      }
+
+      // Task rules
+      match /tasks/{taskId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(taskId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Subject rules
+      match /subjects/{subjectId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(subjectId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Schedule rules
+      match /schedule/{entryId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(entryId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Lecture rules
+      match /lectures/{lectureId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(lectureId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // PhD rules
+      match /phd/overview {
+        allow read: if isOwner(userId);
+        allow write: if isOwner(userId);
+      }
+
+      // Chapter rules
+      match /chapters/{chapterId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(chapterId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // PhD Deadlines rules
+      match /phdDeadlines/{deadlineId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(deadlineId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // PhD Todos rules
+      match /phdTodos/{todoId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(todoId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Family Event rules
+      match /familyEvents/{eventId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(eventId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Family Todo rules
+      match /familyTodos/{todoId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(todoId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Home Note rules
+      match /homeNotes/{noteId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(noteId);
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Reflection rules
+      match /reflections/{date} {
+        allow read: if isOwner(userId);
+        allow write: if isOwner(userId) && isValidId(date);
+      }
+    }
+  }
+}
